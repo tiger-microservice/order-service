@@ -22,6 +22,7 @@ import java.util.UUID;
 @Slf4j
 public class OrderProcessingSaga {
 
+    // transient need to use in @Saga for inject bean
     @Autowired
     private transient CommandGateway commandGateway;
 
