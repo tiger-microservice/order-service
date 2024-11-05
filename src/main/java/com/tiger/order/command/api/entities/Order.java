@@ -22,7 +22,6 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "orders")
 @SQLDelete(sql = "UPDATE orders set is_deleted = true where id = ?")
-@SQLRestriction("is_deleted <> true")
 public class Order extends SoftDelEntity {
     @Id
 //    @GeneratedValue(strategy = GenerationType.UUID)
