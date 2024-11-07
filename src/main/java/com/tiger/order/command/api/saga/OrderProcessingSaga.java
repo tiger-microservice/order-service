@@ -1,7 +1,7 @@
 package com.tiger.order.command.api.saga;
 
-import com.tiger.order.command.api.dtos.events.OrderCreatedEvent;
-import lombok.extern.slf4j.Slf4j;
+import java.util.UUID;
+
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.modelling.saga.EndSaga;
@@ -10,13 +10,15 @@ import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.tiger.order.command.api.dtos.events.OrderCreatedEvent;
+
+import lombok.extern.slf4j.Slf4j;
 import vn.tiger.sagacommon.commands.*;
 import vn.tiger.sagacommon.constants.enums.OrderStatus;
 import vn.tiger.sagacommon.events.*;
 import vn.tiger.sagacommon.model.User;
 import vn.tiger.sagacommon.queries.GetUserPaymentDetailsQuery;
-
-import java.util.UUID;
 
 @Saga
 @Slf4j
@@ -33,11 +35,12 @@ public class OrderProcessingSaga {
     @SagaEventHandler(associationProperty = "orderId")
     private void handle(OrderCreatedEvent event) {
         log.info("OrderCreatedEvent in Saga for Order Id: {}", event.getOrderId());
-        GetUserPaymentDetailsQuery getUserPaymentDetailsQuery
-                = new GetUserPaymentDetailsQuery(event.getUserId());
+        GetUserPaymentDetailsQuery getUserPaymentDetailsQuery = new GetUserPaymentDetailsQuery(event.getUserId());
 
         try {
-            User user = queryGateway.query(getUserPaymentDetailsQuery, ResponseTypes.instanceOf(User.class)).join();
+            User user = queryGateway
+                    .query(getUserPaymentDetailsQuery, ResponseTypes.instanceOf(User.class))
+                    .join();
 
             ValidatePaymentCommand validatePaymentCommand = ValidatePaymentCommand.builder()
                     .cardDetails(user.getCardDetails())
@@ -93,24 +96,19 @@ public class OrderProcessingSaga {
     @SagaEventHandler(associationProperty = "orderId")
     @EndSaga
     public void handle(OrderCompletedEvent event) {
-        log.info("OrderCompletedEvent in Saga for Order Id : {}",
-                event.getOrderId());
+        log.info("OrderCompletedEvent in Saga for Order Id : {}", event.getOrderId());
     }
 
     @SagaEventHandler(associationProperty = "orderId")
     @EndSaga
     public void handle(OrderCancelledEvent event) {
-        log.info("OrderCancelledEvent in Saga for Order Id : {}",
-                event.getOrderId());
+        log.info("OrderCancelledEvent in Saga for Order Id : {}", event.getOrderId());
     }
 
     @SagaEventHandler(associationProperty = "orderId")
     @EndSaga
     public void handle(PaymentCancelledEvent event) {
-        log.info("PaymentCancelledEvent in Saga for Order Id : {}",
-                event.getOrderId());
+        log.info("PaymentCancelledEvent in Saga for Order Id : {}", event.getOrderId());
         cancelOrderCommand(event.getOrderId());
     }
-
-
 }

@@ -1,8 +1,10 @@
 package com.tiger.order.command.api.exceptions;
 
-import com.tiger.cores.exceptions.BaseError;
-import lombok.Getter;
 import org.springframework.http.HttpStatusCode;
+
+import com.tiger.cores.exceptions.BaseError;
+
+import lombok.Getter;
 
 @Getter
 public enum AppErrorCode implements BaseError {

@@ -13,7 +13,8 @@ public class OrderCreatedEvent {
 
     public OrderCreatedEvent() {}
 
-    public OrderCreatedEvent(String orderId, String productId, String userId, String addressId, Integer quantity, String orderStatus) {
+    public OrderCreatedEvent(
+            String orderId, String productId, String userId, String addressId, Integer quantity, String orderStatus) {
         this.orderId = orderId;
         this.productId = productId;
         this.userId = userId;

@@ -1,13 +1,15 @@
 package com.tiger.order.command.api.aggregates;
 
-import com.tiger.order.command.api.commands.CreateOrderCommand;
-import com.tiger.order.command.api.dtos.events.OrderCreatedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
+
+import com.tiger.order.command.api.commands.CreateOrderCommand;
+import com.tiger.order.command.api.dtos.events.OrderCreatedEvent;
+
 import vn.tiger.sagacommon.commands.CancelOrderCommand;
 import vn.tiger.sagacommon.commands.CompleteOrderCommand;
 import vn.tiger.sagacommon.events.OrderCancelledEvent;
@@ -18,6 +20,7 @@ public class OrderAggregate {
 
     @AggregateIdentifier
     private String orderId;
+
     private String productId;
     private String userId;
     private String addressId;

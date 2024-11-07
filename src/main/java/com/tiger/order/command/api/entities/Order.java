@@ -1,17 +1,19 @@
 package com.tiger.order.command.api.entities;
 
-import com.tiger.cores.entities.SoftDelEntity;
+import java.util.UUID;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
+import org.hibernate.annotations.SQLDelete;
+
+import com.tiger.cores.entities.SoftDelEntity;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLRestriction;
-
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -24,9 +26,10 @@ import java.util.UUID;
 @SQLDelete(sql = "UPDATE orders set is_deleted = true where id = ?")
 public class Order extends SoftDelEntity {
     @Id
-//    @GeneratedValue(strategy = GenerationType.UUID)
+    //    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "order_id")
     UUID orderId;
+
     String productId;
     String userId;
     String addressId;
